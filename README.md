@@ -1,4 +1,6 @@
-# vue-smart-on-fhir
+# vue boilerplate for smart-on-fhir apps
+
+## Work in progress. Do not use.
 
 ## Project setup
 ```
