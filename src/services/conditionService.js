@@ -1,12 +1,13 @@
 import FHIR from 'fhirclient';
 
-let Conditions = function(patient_id){
-  var smart = FHIR.client({
+const Conditions = function Conditions(pId) {
+  const smart = FHIR.client({
     serviceUrl: 'https://r2.smarthealthit.org',
-    patientId: 'smart-1137192'
+    // smart-1137192
+    patientId: pId,
   });
   // $.Deferred
-  return smart.patient.api.search({type: 'Condition'});
+  return smart.patient.api.search({ type: 'Condition' });
 };
 
 export default Conditions;

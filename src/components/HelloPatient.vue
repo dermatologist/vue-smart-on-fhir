@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
       <div>
           <ul>
-              <li v-bind:key="post.uuid" v-for="post in patients">
+              <li v-bind:key="post.uuid" v-for="post in conditions">
                   {{post.uuid}} | {{post.display}}
               </li>
           </ul>
@@ -48,6 +48,7 @@ export default {
       search: '',
       isLoading: false,
       arrowCounter: 0,
+      deferredPromise: null,
     };
   },
   created() {
@@ -55,23 +56,24 @@ export default {
   },
   computed: {
     error() {
-      if(Conditions.state() == "rejected")
+      if (this.deferredPromise && this.deferredPromise.state() === 'rejected') {
         return true;
-      else
-        return false;
+      }
+      return false;
     },
     pending() {
-      if(Conditions.state() == "pending")
-        return true;
-      else
-        return false;
+      if (this.deferredPromise && this.deferredPromise.state() === 'pending') { return true; }
+      return false;
     },
     conditions() {
-      var c;
-      Conditions.done(function(c){
-        console.log(c);
-      });
-      return c;
+      let toReturn = [];
+      if (this.deferredPromise != null) {
+        this.deferredPromise.done((c) => {
+          console.log(c);
+          toReturn = c;
+        });
+      }
+      return toReturn;
     },
   },
   methods: {
@@ -82,8 +84,8 @@ export default {
 
       // Send request
 
-      //const params = { q: this.search };
-      Condition(this.search);
+      // const params = { q: this.search };
+      this.deferredPromise = Conditions(this.search);
 
 
       // Is the data given by an outside ajax request?
