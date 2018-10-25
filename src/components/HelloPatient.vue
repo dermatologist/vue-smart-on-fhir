@@ -7,13 +7,13 @@
                   {{post.uuid}} | {{post.display}}
               </li>
           </ul>
-          <p v-if="pending">loading posts...</p>
+          <p v-if="isLoading">loading posts...</p>
           <p v-if="error">loading failed</p>
       </div>
 
       <h2>SEARCH: </h2>
       <div class="autocomplete">
-          <input type="text" @input="onChange"
+          <input size="60" type="text" @input="onChange"
                  v-model="search"
                  @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keyup.enter="onEnter" />
           <ul id="autocomplete-results" v-show="isOpen" class="autocomplete-results">
@@ -69,8 +69,8 @@ export default {
       let toReturn = [];
       if (this.deferredPromise != null) {
         this.deferredPromise.done((c) => {
-          console.log(c);
-          toReturn = c;
+          toReturn = c.data.entry;
+          this.getPromise(toReturn);
         });
       }
       return toReturn;
@@ -86,27 +86,23 @@ export default {
 
       // const params = { q: this.search };
       this.deferredPromise = Conditions(this.search);
-
-
-      // Is the data given by an outside ajax request?
-      if (this.pending) {
-        this.isLoading = true;
-      } else if (this.conditions) {
-        // Let's search our flat array
-        this.filterResults();
-        this.isOpen = true;
-      }
     },
 
     filterResults() {
       // first uncapitalize all the things
       // this.results = this.items
-      this.results = this.conditions
-        .filter(item => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+      // this.results = this.conditions;
+      // console.log(this.results);
+    },
+
+    getPromise(p) {
+      console.log(p);
+      this.results = p;
+      return p;
     },
 
     setResult(result) {
-      this.search = result;
+      this.search = result.fullUrl;
       this.isOpen = false;
     },
 
@@ -123,6 +119,7 @@ export default {
     },
     onEnter() {
       this.search = this.results[this.arrowCounter];
+      console.log(this.search);
       this.isOpen = false;
       this.arrowCounter = -1;
     },
@@ -135,10 +132,11 @@ export default {
   },
 
   watch: {
-    items(val, oldValue) {
+    pending(val, oldValue) {
       // actually compare them
-      if (val.length !== oldValue.length) {
-        this.results = val;
+      console.log(val, oldValue);
+      if (val !== oldValue) {
+        this.isOpen = true;
         this.isLoading = false;
       }
     },
