@@ -16,11 +16,6 @@ Create components that your App requires. See the example at components/HelloPat
 ### Optional:
 Add a router if your App needs one.
 
-## Contributors
-[Bell Eapen](https://nuchange.ca) | McMaster U.
-Uses the sandbox provided by [SmartHealthIT](https://dev.smarthealthit.org/)
-
-
 ## Project setup
 ```
 yarn install
@@ -50,3 +45,8 @@ yarn run lint
 ```
 yarn run test:unit
 ```
+
+## Contributors
+* [Bell Eapen](https://nuchange.ca) | McMaster U.
+* Uses the sandbox provided by [SmartHealthIT](https://dev.smarthealthit.org/)
+
