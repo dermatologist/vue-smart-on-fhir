@@ -37,7 +37,7 @@
 import Conditions from '../services/conditionService';
 
 export default {
-  name: 'HelloCondition',
+  name: 'HelloPatient',
   props: {
     msg: String,
   },
