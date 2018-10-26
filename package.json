@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "vue": "^2.5.17",
+    "fhirclient": "^0.1.12",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//cdn.jsdelivr.net/npm/fhirclient@0.1.12/fhir-client.min.js"></script>
+    <!-- TODO: Change server here -->
+    <script>
+      FHIR.oauth2.authorize({
+          "client": {
+              "client_id": "my_web_app",
+              "scope":  "patient/*.read launch/patient"
+          },
+          "server": "https://launch.smarthealthit.org/v/r3/sim/eyJoIjoiMSIsImoiOiIxIn0/fhir"
+      });
+    </script>
+</head>
+<body>Loading...</body>
+</html>
