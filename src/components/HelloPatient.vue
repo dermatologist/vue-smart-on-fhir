@@ -36,6 +36,11 @@
 
 import Conditions from '../services/conditionService';
 
+/*
+The services return $.deferred object that gets saved in
+deferredPromise below.
+
+*/
 export default {
   name: 'HelloPatient',
   props: {
@@ -65,6 +70,10 @@ export default {
       if (this.deferredPromise && this.deferredPromise.state() === 'pending') { return true; }
       return false;
     },
+    /*
+    TODO: This needs tweaking. Always returns [].
+    The getPromise proceses the c.data.entry which is an array
+    */
     conditions() {
       let toReturn = [];
       if (this.deferredPromise != null) {
@@ -83,24 +92,24 @@ export default {
       this.$emit('input', this.search);
 
       // Send request
-
-      // const params = { q: this.search };
       this.deferredPromise = Conditions(this.search);
     },
 
     filterResults() {
-      // first uncapitalize all the things
-      // this.results = this.items
-      // this.results = this.conditions;
-      // console.log(this.results);
+      /*
+        If any filtering is needed, you may do it here.
+      */
     },
 
     getPromise(p) {
-      console.log(p);
       this.results = p;
       return p;
     },
-
+    /*
+    The rest of the code may not be needed for you app.
+    This captures the clicked/selected result and displays
+    the fullURL of the resource.
+    */
     setResult(result) {
       this.search = result.fullUrl;
       this.isOpen = false;
